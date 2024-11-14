@@ -14,6 +14,7 @@ PORT: int = 3300
 pool = db.ConnectionPool(HOST, USER, PASSWORD, DATABASE, PORT)
 
 
+#gets a client location in the users list by an attribute.
 def getcliby(attr: str, con) -> (int | bool):
     global users
     for i in range(len(users)):
@@ -22,6 +23,7 @@ def getcliby(attr: str, con) -> (int | bool):
     return False
 
 
+#gets a room location in the rooms list by an attribute.
 def getroomby(attr: str, con) -> (int | bool):
     global rooms
     for i in range(len(rooms)):
@@ -30,6 +32,7 @@ def getroomby(attr: str, con) -> (int | bool):
     return False
 
 
+#tries to login with a given name and password. returns the fail details as a string if somethng failed.
 def login(name: str, p: str) -> (bool | str):
     sql = f"select pass from users where username='{name}'"
     with pool.select(sql) as s:
@@ -41,6 +44,7 @@ def login(name: str, p: str) -> (bool | str):
         return 'user does not exist'
 
 
+#tries to register with a new account. returns false if account already exists.
 def addname(name: str, passw: str) -> bool:
     sql = f"select username from users where username='{name}'"
     with pool.select(sql) as s:
@@ -49,8 +53,9 @@ def addname(name: str, passw: str) -> bool:
             pool.runsql(sql)
             return True
         return False
-    
 
+
+#send the rooms available to a given client.
 def sendrooms(clobj: User.User, server: ws.WebsocketServer) -> None:
     global rooms
     roms = []
@@ -63,6 +68,7 @@ def sendrooms(clobj: User.User, server: ws.WebsocketServer) -> None:
     clobj.send(server, roms, 'rooms')
 
 
+# send participants in the room for a given client.
 def sendparts(clobj: User.User, server: ws.WebsocketServer) -> None:
     global rooms
     rom = getroomby('name', clobj.room)
