@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>socket</title>
+</head>
+<body>
+    <script src="static/socket.js"></script>
+    <br>
+    <div id="rooms"></div>
+    <div id="fails"></div>
+    <div id="chat-container">
+        <div id="msgs">
+            <h1>log in:</h1><br>
+            username:<br>
+            <input id="name" onkeydown="
+                if (event.key === 'Enter') {
+                    s = connect(this.value, document.querySelector('#password').value);
+                    document.querySelector('#fails').innerHTML = ''
+                }
+            "><br>
+            password:<br>
+            <input id="password" type="password" onkeydown="
+                if (event.key === 'Enter') {
+                    s = connect(document.querySelector('#name').value, this.value);
+                    document.querySelector('#fails').innerHTML = ''
+                }
+            ">
+            <br><br>
+            <button onclick="
+                s = connect(document.querySelector('#name').value, document.querySelector('#password').value);
+                document.querySelector('#fails').innerHTML = ''
+            ">login</button>
+            <button onclick="
+                document.querySelector('#msgs').innerHTML = reg;
+                document.querySelector('#fails').innerHTML = '';
+            ">register</button>
+        </div>
+        <div id="game"></div>
+    </div>
+    <br>
+    <div id="data">
+        <div id="room_data">
+            <div id="name"></div>
+            <div id="ppl"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="username" class="username"></div>
+        <div id="usrname" class="username"></div>
+        <br>
+        <div id="logout"></div>
+    </div>
+    <div id="profile"><div id="iprofile"><h1><span id="xpname"></span></h1>
+        xp: <span id="xp"></span>
+        <br>
+        color: <span id="colors">this is your color</span><br>
+        <input type="color" id="col">
+        <button onclick="
+            color = hex2rgb(document.querySelector('#col').value);
+            document.querySelector('#colors').style.color = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+            send(s, color, 'col');
+        ">change color</button>
+        <br><br>
+        <input type="text" id="changep" onkeydown="
+            if (event.key === 'Enter') {
+                send(s, this.value, 'changep');
+                this.value = ''
+            }
+        ">
+        <button id="del" onclick="
+            send(s, document.querySelector('#changep').value, 'changep');
+        ">change password</button><br><br>
+        <div id="friends"></div>
+        <button id="del" onclick="
+            send(s, 'del', 'del');
+            location.reload()
+        ">delete profile</button><br><br>
+        <button onclick="
+            document.querySelector('#profile').style.visibility = 'hidden'
+        ">close</button>
+        </div>
+    </div>
+</body>
+</html>
