@@ -1,4 +1,5 @@
 # an online game.
+my biggest project. combining all my knowledge of python together: flask, websocket, classes, exceptions, interfaces, ...
 
 ## accounts :
 ### database :
