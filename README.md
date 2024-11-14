@@ -1,4 +1,4 @@
-# an online game.
+# an imitation of hitbox.io.
 my biggest project. combining all my knowledge of python together: flask, websocket, classes, exceptions, interfaces, ...
 
 ## accounts :
