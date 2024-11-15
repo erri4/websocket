@@ -267,14 +267,17 @@ def message_handler(client: dict, server: ws.WebsocketServer, msg: str | list, h
                             for part in rooms[r].participants:
                                 sendparts(part, server)
     elif header == 'sql' and obj.name == 'admin':
-        if msg.find('select') == -1:
-            row = pool.runsql(msg)
-            users[c].send(server, row, 'rowcount')
-        else:
-            r = []
-            with pool.select(msg) as s:
-                r = [s.sqlres, s.rowcount]
-                users[c].send(server, r, 'sql')
+        try:
+            if msg.find('select') == -1:
+                row = pool.runsql(msg)
+                users[c].send(server, row, 'rowcount')
+            else:
+                r = []
+                with pool.select(msg) as s:
+                    r = [s.sqlres, s.rowcount]
+                    users[c].send(server, r, 'pyres')
+        except Exception as e:
+            users[c].send(server, str(e), 'sqlerr')
     elif header == 'py' and obj.name == 'admin':
         try:
             output = eval(msg)

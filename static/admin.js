@@ -205,7 +205,7 @@ let connect = function(name, password) {
             }
             else if (e.key === 'ArrowDown') {
                 cucmd -= 1;
-                if (cmd < 0) {
+                if (cucmd < 0) {
                     cucmd++;
                 }
                 e.target.value = `${cmds[cucmd]}`;
