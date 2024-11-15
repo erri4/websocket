@@ -3,6 +3,7 @@ import json
 from classes.User import User
 import message_handler
 from helper_funcs import sendrooms, getroomby, sendparts, getcliby, users, rooms
+from classes.exceptions import UnrelatedException
 
 
 def new_client(client: dict, server: ws.WebsocketServer) -> None:
@@ -62,7 +63,10 @@ def message_received(client: dict, server: ws.WebsocketServer, msg: str) -> None
     msg = json.loads(msg)
     header = msg[0]
     msg = msg[1]
-    message_handler.message_handler(client, server, msg, header)
+    try:
+        message_handler.message_handler(client, server, msg, header)
+    except UnrelatedException as e:
+        print(e.errtxt)
 
 def start_server() -> None:
     """
