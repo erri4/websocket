@@ -64,18 +64,14 @@ def message_received(client: dict, server: ws.WebsocketServer, msg: str) -> None
     msg = msg[1]
     message_handler.message_handler(client, server, msg, header)
 
-def start_server(ip: str) -> None:
+def start_server() -> None:
     """
     start the websocket server.
-
-    <code>ip: string:</code> the ip for the server to run on.
-
-    <code>return: None.</code>
     """
-    server = ws.WebsocketServer(host=f'{ip}', port=5001)
+    server = ws.WebsocketServer(host=f'0.0.0.0', port=5001)
     server.set_fn_new_client(new_client)
     server.set_fn_client_left(client_left)
     server.set_fn_message_received(message_received)
     
-    print(f'Server listening on {ip}:5001')
+    print(f'Server listening on port 5001')
     server.run_forever(threaded=True)

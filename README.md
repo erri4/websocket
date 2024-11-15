@@ -38,5 +38,4 @@ my biggest project. combining all my knowledge of python together: flask, websoc
     >>>cd websocket
     >>>flask run
 
-server is now running on your local net at your ipv4 address.<br>
-if you are not connected to any network it is running on 127.0.0.1.
+server is now running on your local net at your ip address.

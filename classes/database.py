@@ -2,7 +2,7 @@ import pymysql
 import dbutils.pooled_db
 import pymysql.cursors
 import pymysql.connections
-from interfaces import ConnectionPoolInterface
+from classes.interfaces import ConnectionPoolInterface
 from typing import Callable
 
 

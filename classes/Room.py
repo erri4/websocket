@@ -1,4 +1,4 @@
-from User import User
+from classes.User import User
 import websocket_server as ws
 
 
