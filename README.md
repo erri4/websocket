@@ -30,12 +30,11 @@ my biggest project. combining all my knowledge of python together: flask, websoc
 
 # installation :
     >>>pip install flask websocket-server bcrypt PyMySQL dbutils<br>
-    >>>git clone https://github.com/erri4/functions.git func<br>
-    >>>git clone https://github.com/erri4/websocket.git
+    >>>git clone https://github.com/erri4/websocket.git<br>
+    >>>cd websocket
 
 
 # running :
-    >>>cd websocket
     >>>flask run
 
 server is now running on your local net at your ip address.
