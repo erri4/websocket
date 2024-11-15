@@ -23,7 +23,20 @@ my biggest project. combining all my knowledge of python together: flask, websoc
 
 ## database :
 ### users :
-id int (pk, ai) | username varchar(255) | pass varchar(255) | xp int
+    id int (pk, ai) | username varchar(255) | pass varchar(255) | xp int
 
 ### friends :
-friend int (fk: users(id)) | f_of int (fk: users(id))
+    friend int (fk: users(id)) | f_of int (fk: users(id))
+
+# installation :
+    >>>pip install flask websocket-server bcrypt PyMySQL dbutils<br>
+    >>>git clone https://github.com/erri4/functions.git func<br>
+    >>>git clone https://github.com/erri4/websocket.git
+
+
+# running :
+    >>>cd websocket
+    >>>flask run
+
+server is now running on your local net at your ipv4 address.<br>
+if you are not connected to any network it is running on 127.0.0.1.

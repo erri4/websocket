@@ -6,6 +6,32 @@ import websocket_server as ws
 
 
 def message_handler(client: dict, server: ws.WebsocketServer, msg: str | list, header: str) -> None:
+    """
+    handle the message.
+
+    <code>client: dictionary:</code> the client who sent a message.<br>
+    <code>sever: WebsocketServer:</code> the websocket server.<br>
+    <code>msg: string | list:</code> the message the client sent.<br>
+    <code>header: string:</code> the header of the message the client sent.<br>
+    valid headers:<br>
+    - <code>login:</code> log in.
+    - <code>reg:</code> register.
+    - <code>create:</code> create a room.
+    - <code>join:</code> join a room.
+    - <code>col:</code> change the color.
+    - <code>leave:</code> leave room.
+    - <code>msg:</code> send message in the room.
+    - <code>move:</code> move the avatar in the game.
+    - <code>eat:</code> eat someone in the game.
+    - <code>del:</code> delete the account.
+    - <code>changep:</code> change the password.
+    - <code>addf:</code> add a friend.
+    - <code>remf:</code> remove a friend.
+    - <code>sql:</code> admin feature. run sql.
+    - <code>py:</code> admin feature. run python.
+
+    <code>return: None.</code>
+    """
     global users
     global rooms
     c = getcliby('client', client)

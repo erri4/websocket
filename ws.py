@@ -6,11 +6,27 @@ from helper_funcs import sendrooms, getroomby, sendparts, getcliby, users, rooms
 
 
 def new_client(client: dict, server: ws.WebsocketServer) -> None:
+    """
+    new client setup. creating an instace of user and appending it to the users list.
+
+    <code>client: dictionary:</code> the new client.<br>
+    <code>sever: WebsocketServer:</code> the websocket server.
+
+    <code>return: None.</code>
+    """
     cl = User(client)
     users.append(cl)
 
 
 def client_left(client: dict, server: ws.WebsocketServer) -> None:
+    """
+    client left setup. removing the client from users list and room if it was inside a room.
+
+    <code>client: dictionary:</code> the client who left.<br>
+    <code>sever: WebsocketServer:</code> the websocket server.
+
+    <code>return: None.</code>
+    """
     c = getcliby('client', client)
     obj = users[c]
     if obj.room != None:
@@ -34,12 +50,28 @@ def client_left(client: dict, server: ws.WebsocketServer) -> None:
 
 
 def message_received(client: dict, server: ws.WebsocketServer, msg: str) -> None:
+    """
+    parse the message and call message_handler function.
+
+    <code>client: dictionary:</code> the client who sent a message.<br>
+    <code>sever: WebsocketServer:</code> the websocket server.<br>
+    <code>msg: string:</code> the message the client sent.
+
+    <code>return: None.</code>
+    """
     msg = json.loads(msg)
     header = msg[0]
     msg = msg[1]
     message_handler.message_handler(client, server, msg, header)
 
-def start_server(ip) -> None:
+def start_server(ip: str) -> None:
+    """
+    start the websocket server.
+
+    <code>ip: string:</code> the ip for the server to run on.
+
+    <code>return: None.</code>
+    """
     server = ws.WebsocketServer(host=f'{ip}', port=5001)
     server.set_fn_new_client(new_client)
     server.set_fn_client_left(client_left)

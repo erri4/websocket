@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class ConnectionPoolInterface(ABC):
+    """
+    an interface for the ConnectionPool class.
+    """
     @abstractmethod
     def _connect(self):
         pass
