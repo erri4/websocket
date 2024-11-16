@@ -29,7 +29,7 @@ my biggest project. combining all my knowledge of python together: flask, websoc
     friend int (fk: users(id)) | f_of int (fk: users(id))
 
 # installation :
-    >>>pip install flask websocket-server bcrypt PyMySQL dbutils<br>
+    >>>pip install flask bcrypt PyMySQL dbutils<br>
     >>>git clone https://github.com/erri4/websocket.git<br>
     >>>cd websocket
 
@@ -37,4 +37,4 @@ my biggest project. combining all my knowledge of python together: flask, websoc
 # running :
     >>>flask run
 
-server is now running on your local net at your ip address.
+the server is now running on your local net at your ip address.

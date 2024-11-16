@@ -1,5 +1,4 @@
 import classes.database as db
-import websocket_server as ws
 import classes.User as User
 import classes.Room as Room
 from typing import Any
@@ -19,10 +18,10 @@ def getcliby(attr: str, con: Any) -> (int | bool):
     """
     gets a client location in the users list by an attribute.
 
-    <code>attr: string:</code> the attribute to find the client by.<br>
-    <code>con: any:</code> the content of the attribute.
+    <code>attr: string: </code> the attribute to find the client by.<br>
+    <code>con: any: </code> the content of the attribute.
 
-    <code>return: integer | boolean:</code> the location of the client in the users list. false if it is not in the list.
+    <code>return: integer | boolean: </code> the location of the client in the users list. false if it is not in the list.
     """
     global users
     for i in range(len(users)):
@@ -36,9 +35,9 @@ def getroomby(attr: str, con: Any) -> (int | bool):
     gets a room location in the rooms list by an attribute.
 
     <code>attr: string: the attribute to find the room by.<br>
-    <code>con: any:</code> the content of the attribute.
+    <code>con: any: </code> the content of the attribute.
 
-    <code>return: integer | boolean:</code> the location of the room in the rooms list. false if it is not in the list.
+    <code>return: integer | boolean: </code> the location of the room in the rooms list. false if it is not in the list.
     """
     global rooms
     for i in range(len(rooms)):
@@ -51,10 +50,10 @@ def login(name: str, p: str) -> (bool | str):
     """
     tries to login with a given name and password. returns the fail details as a string if somethng failed.
 
-    <code>name: string:</code> the name of the new account.<br>
-    <code>p: string:</code> the password of the new account.
+    <code>name: string: </code> the name of the new account.<br>
+    <code>p: string: </code> the password of the new account.
 
-    <code>return: boolean | string:</code> returns what failed as a string. true if nothing failed.
+    <code>return: boolean | string: </code> returns what failed as a string. true if nothing failed.
     """
     sql = f"select pass from users where username='{name}'"
     with pool.select(sql) as s:
@@ -70,10 +69,10 @@ def addname(name: str, passw: str) -> bool:
     """
     tries to register with a new account. returns false if account already exists.
 
-    <code>name: string:</code> the name of the new account.<br>
-    <code>passw: string:</code> the password of the new account.
+    <code>name: string: </code> the name of the new account.<br>
+    <code>passw: string: </code> the password of the new account.
 
-    <code>return: boolean:</code> returns false if account already exist, and true if the process of registering was successful.
+    <code>return: boolean: </code> returns false if account already exist, and true if the process of registering was successful.
     """
     sql = f"select username from users where username='{name}'"
     with pool.select(sql) as s:
@@ -84,14 +83,13 @@ def addname(name: str, passw: str) -> bool:
         return False
 
 
-def sendrooms(clobj: User.User, server: ws.WebsocketServer) -> None:
+def sendrooms(clobj: User.User) -> None:
     """
     send the rooms available to a given client.
 
-    <code>clobj: User:</code> the user the rooms are sent to.<br>
-    <code>server: WebsocketServer:</code> the server the rooms are sent with.
+    <code>clobj: User: </code> the user the rooms are sent to.
 
-    <code>return: None.</code>
+    <code>return: None. </code>
     """
     global rooms
     roms = []
@@ -101,17 +99,16 @@ def sendrooms(clobj: User.User, server: ws.WebsocketServer) -> None:
             if part.name in clobj.friends:
                 finroom.append(part.name)
         roms.append([rooms[i].name, finroom, rooms[i].password != None])
-    clobj.send(server, roms, 'rooms')
+    clobj.send(roms, 'rooms')
 
 
-def sendparts(clobj: User.User, server: ws.WebsocketServer) -> None:
+def sendparts(clobj: User.User) -> None:
     """
     send participants in the room for a given client.
 
-    <code>clobj: User:</code> the user the participants are sent to.<br>
-    <code>server: WebsocketServer:</code> the server the participants are sent with.
+    <code>clobj: User: </code> the user the participants are sent to.
 
-    <code>return: None.</code>
+    <code>return: None. </code>
     """
     global rooms
     rom = getroomby('name', clobj.room)
@@ -119,4 +116,4 @@ def sendparts(clobj: User.User, server: ws.WebsocketServer) -> None:
     re = []
     for p in parts:
         re.append([p.name, p.name in clobj.friends or p.name == clobj.name, p == rooms[rom].host])
-    clobj.send(server, re, 'rm_ppl')
+    clobj.send(re, 'rm_ppl')

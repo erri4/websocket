@@ -1,18 +1,18 @@
 from classes.User import User
-import websocket_server as ws
 
 
 class Room:
-    """
-    a class for managing client rooms.
-    """
     blacklist: list[User] = []
     # banned people.
 
 
     def __init__(self, name: str, creator: User, password: str | None) -> None:
         """
-        set the name, host, password and the first participant.
+        a class for managing client rooms.
+
+        <code>name: string: </code> the name of the room.<br>
+        <code>creator: User: </code> the creator of the room.<br>
+        <code>password: string | None: </code> the password of the room.
         """
         self.name = name
         self.participants: list[User] = [creator]
@@ -24,9 +24,9 @@ class Room:
         """
         add a participant.
 
-        <code>participant: User:</code> the participant to be added.
+        <code>participant: User: </code> the participant to be added.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
         self.participants.append(participant)
         
@@ -35,9 +35,9 @@ class Room:
         """
         remove a participant.
 
-        <code>participant: User:</code> the participant to be removed.
+        <code>participant: User: </code> the participant to be removed.
 
-        <code>return: boolean:</code> true if there are participants in the room and false if there isn't.
+        <code>return: boolean: </code> true if there are participants in the room and false if there isn't.
         """
         for part in self.participants:
             if part == participant:
@@ -54,55 +54,48 @@ class Room:
             return False
     
 
-    def sendmsg(self, msg: str, frm: User, server: ws.WebsocketServer) -> None:
+    def sendmsg(self, msg: str, frm: User) -> None:
         """
         send a message in the room.
 
-        <code>msg: string:</code> the message to be sent.<br>
-        <code>frm: User:</code> the user who sent the message.<br>
-        <code>server: WebsocketServer:</code> the server to send the message with.
+        <code>msg: string: </code> the message to be sent.<br>
+        <code>frm: User: </code> the user who sent the message.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
         reply = [frm.name, msg, [frm.color[0], frm.color[1], frm.color[2]]]
-        self.sendall(reply, server)
+        self.sendall(reply)
     
 
-    def sysmsg(self, msg: str, server: ws.WebsocketServer) -> None:
+    def sysmsg(self, msg: str) -> None:
         """
         send a system message (a message sent by the system).
 
-        <code>msg: string:</code> the message to be sent.<br>
-        <code>sever: WebsocketServer:</code> the server to send the message with.
+        <code>msg: string: </code> the message to be sent.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
-        self.sendall(msg, server, 'sys')
+        self.sendall(msg, 'sys')
 
 
-    def sendall(self, msg: str | list, server: ws.WebsocketServer, header: str = 'msg') -> None:
+    def sendall(self, msg: str | list, header: str = 'msg') -> None:
         """
         send a message to all the participants in the room.
 
-        <code>msg: string | list:</code> the message to be sent.<br>
-        <code>sever: WebsocketServer:</code> the server to send the message with.<br>
-        <code>header: string:</code> the header of the message.
+        <code>msg: string | list: </code> the message to be sent.<br>
+        <code>header: string: </code> the header of the message.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
         for cl in self.participants:
-            cl.send(server, msg, header)
+            cl.send(msg, header)
 
 
-    def move(self, server: ws.WebsocketServer) -> None:
+    def move(self) -> None:
         """
         send the positions of the participants to every one of them.
-
-        <code>server: WebsocketServer:</code> the server to send the positions with.
-
-        <code>return: None.</code>
         """
         play = []
         for cli in self.participants:
             play.append([cli.name, [cli.x, cli.y], [cli.color[0], cli.color[1], cli.color[2]]])
-        self.sendall(play, server, 'move')
+        self.sendall(play, 'move')

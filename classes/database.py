@@ -7,20 +7,15 @@ from typing import Callable
 
 
 class ConnectionPool(ConnectionPoolInterface):
-    """
-    a class for managing the connection pool.
-    """
     def __init__(self, host: str, user: str, password: str, database: str, port: int) -> None:
         """
-        create the pool.
+        a class for managing the connection pool.
 
-        <code>host: string:</code> the database host address.<br>
-        <code>user: string:</code> the databse username.<br>
-        <code>password: string:</code> the database password.<br>
-        <code>database: string:</code> the default database of the connection.<br>
-        <code>port: integer:</code> the port of the databse host.
-
-        <code>return: None.</code>
+        <code>host: string: </code> the database host address.<br>
+        <code>user: string: </code> the databse username.<br>
+        <code>password: string: </code> the database password.<br>
+        <code>database: string: </code> the default database of the connection.<br>
+        <code>port: integer: </code> the port of the databse host.
         """
         self.pool = dbutils.pooled_db.PooledDB(
             creator=pymysql,
@@ -46,11 +41,11 @@ class ConnectionPool(ConnectionPoolInterface):
             """
             store the data.
             
-            <code>sqlres: list of dictionarys:</code> the data itself.<br>
-            <code>rowcount: integer:</code> the rowcount.<br>
-            <code>close: callable:</code> a disconnect function.
+            <code>sqlres: list of dictionarys: </code> the data itself.<br>
+            <code>rowcount: integer: </code> the rowcount.<br>
+            <code>close: callable: </code> a disconnect function.
             
-            <code>return: None.</code>
+            <code>return: None. </code>
             """
             self.sqlres = sqlres
             self.rowcount = rowcount
@@ -76,9 +71,9 @@ class ConnectionPool(ConnectionPoolInterface):
         """
         close the given connection.
 
-        <code>conn: Connection:</code> the connection to be closed.
+        <code>conn: Connection: </code> the connection to be closed.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
         if conn:
             conn.close()
@@ -88,9 +83,9 @@ class ConnectionPool(ConnectionPoolInterface):
         """
         runs sql in the database.
 
-        <code>sql: string:</code> the sql to be runned.
+        <code>sql: string: </code> the sql to be runned.
 
-        <code>return: integer:</code> the rowcount.
+        <code>return: integer: </code> the rowcount.
         """
         r = 0
         conn = self._connect()
@@ -107,9 +102,9 @@ class ConnectionPool(ConnectionPoolInterface):
         """
         select data from the database.
 
-        <code>sql: string:</code> the sql to be runned.
+        <code>sql: string: </code> the sql to be runned.
 
-        <code>return: _ReturnedSql:</code> an instance of the _ReturnedSql class containing the rowcount, the data itself, and a disconnect function.
+        <code>return: _ReturnedSql: </code> an instance of the _ReturnedSql class containing the rowcount, the data itself, and a disconnect function.
         """
         result = []
         conn = self._connect()

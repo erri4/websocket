@@ -1,11 +1,8 @@
 import json
-import websocket_server as ws
+import classes.websocketserver as ws
     
 
 class User:
-    """
-    a class for managing the websocket connections as clients.
-    """
     id: int = 0
     name = None
     room = None
@@ -14,25 +11,23 @@ class User:
     friends: list[str] = []
     color: list[int] = [0, 0, 0]
     
-    def __init__(self, client: dict) -> None:
+    def __init__(self, client: ws.WebsocketServer.Client) -> None:
         """
-        store the websocket connection.
+        a class for managing the websocket connections as clients.
 
-        <code>client: dictionary:</code> the websocket connection.
-
-        <code>return: None.</code>
+        <code>client: Client: </code> the websocket connection.
         """
-        self.client: dict = client
+        self.client: ws.WebsocketServer.Client = client
 
 
     def move(self, x: int, y: int) -> None:
         """
         change the position of the user.
 
-        <code>x: integer:</code> the new x of the client.<br>
-        <code>y: integer:</code> the new y of the client.
+        <code>x: integer: </code> the new x of the client.<br>
+        <code>y: integer: </code> the new y of the client.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
         self.x = x
         self.y = y
@@ -42,25 +37,24 @@ class User:
         """
         change the name and color of the user.
 
-        <code>name: string:</code> the new name of the client.<br>
-        <code>color: list of integers:</code> the new rgb color of the client.
+        <code>name: string: </code> the new name of the client.<br>
+        <code>color: list of integers: </code> the new rgb color of the client.
 
-        <code>return: None.</code>
+        <code>return: None. </code>
         """
         self.name = name
         self.color = color
 
     
-    def send(self, server: ws.WebsocketServer, msg: str | list, header: str) -> None:
+    def send(self, msg: str | list, header: str) -> None:
         """
         send a message to the client.
 
-        <code>server: WebsocketServer:</code> the server to send the message with.<br>
-        <code>msg: string | list:</code> the message to send.<br>
-        <code>header: string:</code> the header of the message.
+        <code>msg: string | list: </code> the message to send.<br>
+        <code>header: string: </code> the header of the message.
 
-        <code>return: none.</code>
+        <code>return: none. </code>
         """
         if header == None:
             header = 'msg'
-        server.send_message(self.client, json.dumps([header, msg]))
+        self.client.send(json.dumps([header, msg]))
