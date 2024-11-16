@@ -89,7 +89,7 @@ button:hover {
     width: 100%;
 }
 
-#profile button {
+#profile button:not(.remf) {
     width: 100%;
 }
 

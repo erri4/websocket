@@ -378,12 +378,12 @@ let connect = function(name, password, reg = false) {
             document.querySelector('#friends').innerHTML = ``
             if (friends.length !== 0) {
                 if (friends.length === 1) {
-                    document.querySelector('#friends').innerHTML = `friends: <span id="f0">${friends[0]}<button onclick="send(s, '${friends[0]}', 'remf'); document.querySelector('#friends').innerHTML = ''">remove</button><br></span>`;
+                    document.querySelector('#friends').innerHTML = `friends: <span id="f0">${friends[0]}<button class="remf" onclick="send(s, '${friends[0]}', 'remf'); document.querySelector('#friends').innerHTML = ''">remove</button><br></span>`;
                 }
                 else {
                     document.querySelector('#friends').innerHTML = `friends:`;
                     friends.forEach((v, i) => {
-                        document.querySelector('#friends').innerHTML += `<span id="f${i}">${v}<button onclick="send(s, '${v}', 'remf'); document.querySelector('#f${i}').innerHTML = ''">remove</button><br></span>`;
+                        document.querySelector('#friends').innerHTML += `<span id="f${i}">${v}<button class="remf" onclick="send(s, '${v}', 'remf'); document.querySelector('#f${i}').innerHTML = ''">remove</button><br></span>`;
                     });
                 }
             }
