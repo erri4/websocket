@@ -3,9 +3,10 @@ from classes.exceptions import UnrelatedException
 from classes.Room import Room
 import bcrypt
 from typing import NoReturn
+import classes.WebsocketServer as ws
 
 
-def message_handler(client: dict, msg: str | list, header: str) -> None | NoReturn:
+def message_handler(client: ws.WebsocketServer.Client, msg: str | list, header: str) -> None | NoReturn:
     """
     handle the message.
 
