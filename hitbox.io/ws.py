@@ -67,6 +67,9 @@ def message_received(client: ws.WebsocketServer.Client, msg: str) -> None:
         message_handler.message_handler(client, msg, header)
     except UnrelatedException as e:
         print(e.errtxt)
+    except Exception as e:
+        print(e)
+
 
 def start_server() -> None:
     """

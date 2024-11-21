@@ -78,11 +78,11 @@ class Room:
         self.sendall(msg, 'sys')
 
 
-    def sendall(self, msg: str | list, header: str = 'msg') -> None:
+    def sendall(self, msg: str | list | int, header: str = 'msg') -> None:
         """
         send a message to all the participants in the room.
 
-        <code>msg: string | list: </code> the message to be sent.<br>
+        <code>msg: string | list | integer: </code> the message to be sent.<br>
         <code>header: string: </code> the header of the message.
 
         <code>return: None. </code>

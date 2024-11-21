@@ -6,12 +6,12 @@ from typing import NoReturn
 import classes.WebsocketServer as ws
 
 
-def message_handler(client: ws.WebsocketServer.Client, msg: str | list, header: str) -> None | NoReturn:
+def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, header: str) -> None | NoReturn:
     """
     handle the message.
 
     <code>client: Client: </code> the client who sent a message.<br>
-    <code>msg: string | list: </code> the message the client sent.<br>
+    <code>msg: string | list | integer: </code> the message the client sent.<br>
     <code>header: string: </code> the header of the message the client sent.<br>
     valid headers:<br>
     - <code>login: </code> log in.
@@ -283,3 +283,5 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list, header: 
             users[c].send(str(output), 'pyres')
         except Exception as e:
             users[c].send(str(e), 'pyres')
+    else:
+        raise ValueError('invalid header')

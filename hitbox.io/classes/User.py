@@ -46,11 +46,11 @@ class User:
         self.color = color
 
     
-    def send(self, msg: str | list, header: str) -> None:
+    def send(self, msg: str | list | int, header: str) -> None:
         """
         send a message to the client.
 
-        <code>msg: string | list: </code> the message to send.<br>
+        <code>msg: string | list | integer: </code> the message to send.<br>
         <code>header: string: </code> the header of the message.
 
         <code>return: none. </code>
