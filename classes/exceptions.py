@@ -13,4 +13,4 @@ class UnrelatedException(Exception):
         if errcode in self.errcodes:
             self.errcode = errcode
         self.errtxt = self.errdic[errcode]
-        super().__init__('unhandled unrelated exception')
+        super().__init__(self.errtxt)
