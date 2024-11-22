@@ -33,7 +33,6 @@ my biggest project. combining all my knowledge of python together: flask, websoc
     >>>git clone https://github.com/erri4/websocket.git
     >>>cd websocket
     >>>git clone https://github.com/erri4/package.git
-    >>>cd package
     # needed for the websocketserver
 
 
