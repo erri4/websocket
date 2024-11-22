@@ -1,4 +1,4 @@
-import classes.WebsocketServer as ws
+from pypackage import WebsocketServer as ws
 import json
 from classes.User import User
 import message_handler

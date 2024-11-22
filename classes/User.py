@@ -1,5 +1,5 @@
 import json
-import classes.WebsocketServer as ws
+from pypackage import WebsocketServer as ws
     
 
 class User:
