@@ -32,6 +32,9 @@ my biggest project. combining all my knowledge of python together: flask, websoc
     >>>pip install flask bcrypt PyMySQL dbutils cryptography<br>
     >>>git clone https://github.com/erri4/websocket.git<br>
     >>>cd websocket
+    >>>git clone https://github.com/erri4/package.git<br>
+    >>>cd package<br>
+    # needed for the websocketserver
 
 
 # running :
