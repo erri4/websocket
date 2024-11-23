@@ -29,11 +29,9 @@ my biggest project. combining all my knowledge of python together: flask, websoc
     friend int (fk: users(id)) | f_of int (fk: users(id))
 
 # installation :
-    >>>pip install flask bcrypt PyMySQL dbutils cryptography
+    >>>pip install flask bcrypt PyMySQL dbutils cryptography https://erri4.github.io/package/filesforpip/WebsocketServer-0.1.0-py3-none-any.whl
     >>>git clone https://github.com/erri4/websocket.git
     >>>cd websocket
-    >>>git clone https://github.com/erri4/package.git
-    # needed for the websocketserver
 
 
 # running :

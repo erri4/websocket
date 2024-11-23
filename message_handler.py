@@ -3,7 +3,7 @@ from classes.exceptions import UnrelatedException
 from classes.Room import Room
 import bcrypt
 from typing import NoReturn
-from pypackage import WebsocketServer as ws
+import WebsocketServer as ws
 
 
 def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, header: str) -> None | NoReturn:
