@@ -81,4 +81,4 @@ def start_server() -> None:
     server.set_fn_message_received(message_received)
     
     print(f'Server listening on port 5001')
-    server.start()
+    server.start(threaded = True)
