@@ -36,9 +36,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
     global rooms
     c = getcliby('client', client)
     obj = users[c]
-    r = None
-    if obj.room != None:
-        r = getroomby('name', obj.room)
+    r = getroomby('name', obj.room)
     if header == 'login':
         if obj.name != None:
             raise UnrelatedException()
@@ -105,7 +103,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             users[c].send(msg[0], 'rm_name')
             users[c].send([[obj.name, True, True]], 'rm_ppl')
             for cl in users:
-                if cl.room == None:
+                if cl.room == None and cl.name != None:
                     sendrooms(cl)
             ro.move()
             print(f'{obj.name} created room: {msg[0]}')
@@ -134,7 +132,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
         if type(r) != bool and r != None:
             rooms[r].move()
     elif header == 'leave':
-        if r == None:
+        if type(r) == bool:
             raise UnrelatedException(1)
         rm = rooms[r].remove_participant(users[c])
         users[c].room = None
@@ -147,13 +145,13 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
         else:
             del rooms[r]
         for cl in users:
-                if cl.room == None:
+                if cl.room == None and cl.name != None:
                     sendrooms(cl)
         users[c].send('', 'rm_name')
         users[c].send('', 'rm_ppl')
         print(f'{obj.name} left room: {rname}')
     elif header == 'msg':
-        if r == None:
+        if type(r) == bool:
             raise UnrelatedException(1)
         if msg[0] != '/':
             rooms[r].sendmsg(msg, users[c])
@@ -175,7 +173,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                             for part in rooms[r].participants:
                                 sendparts(part)
                             for cl in users:
-                                    if cl.room == None:
+                                    if cl.room == None and cl.name != None:
                                         sendrooms(cl)
                             users[k].send('', 'rm_name')
                             users[k].send('', 'rm_ppl')
