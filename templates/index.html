@@ -38,6 +38,10 @@
                 document.querySelector('#msgs').innerHTML = reg;
                 document.querySelector('#fails').innerHTML = '';
             ">register</button>
+            <button onclick="
+                document.querySelector('#msgs').innerHTML = guest;
+                document.querySelector('#fails').innerHTML = '';
+            ">guest</button>
         </div>
         <div id="game"></div>
     </div>
@@ -79,20 +83,22 @@
             send(s, color, 'col');
         ">change color</button>
         <br><br>
-        <input type="text" id="changep" onkeydown="
-            if (event.key === 'Enter') {
-                send(s, this.value, 'changep');
-                this.value = ''
-            }
-        ">
-        <button id="del" onclick="
-            send(s, document.querySelector('#changep').value, 'changep');
-        ">change password</button><br><br>
-        <div id="friends"></div>
-        <button id="del" onclick="
-            send(s, 'del', 'del');
-            location.reload()
-        ">delete profile</button><br><br>
+        <div id="userset">
+            <input type="text" id="changep" onkeydown="
+                if (event.key === 'Enter') {
+                    send(s, this.value, 'changep');
+                    this.value = ''
+                }
+            ">
+            <button id="del" onclick="
+                send(s, document.querySelector('#changep').value, 'changep');
+            ">change password</button><br><br>
+            <div id="friends"></div>
+            <button id="del" onclick="
+                send(s, 'del', 'del');
+                location.reload()
+            ">delete profile</button>
+        </div><br><br>
         <button onclick="
             document.querySelector('#profile').style.visibility = 'hidden'
         ">close</button>

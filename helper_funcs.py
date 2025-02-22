@@ -50,10 +50,10 @@ def login(name: str, p: str) -> (bool | str):
     """
     tries to login with a given name and password. returns the fail details as a string if somethng failed.
 
-    <code>name: string: </code> the name of the new account.<br>
-    <code>p: string: </code> the password of the new account.
+    <code>name: string:</code> the name of the new account.<br>
+    <code>p: string:</code> the password of the new account.
 
-    <code>return: boolean | string: </code> returns what failed as a string. true if nothing failed.
+    <code>return: boolean | string:</code> returns what failed as a string. true if nothing failed.
     """
     sql = f"select pass from users where username='{name}'"
     with pool.select(sql) as s:
@@ -65,22 +65,28 @@ def login(name: str, p: str) -> (bool | str):
         return 'user does not exist'
 
 
+def namexists(name: str):
+    sql = f"select username from users where username='{name}'"
+    with pool.select(sql) as s:
+        if not s.rowcount > 0:
+            return False
+        return True
+
+
 def addname(name: str, passw: str) -> bool:
     """
     tries to register with a new account. returns false if account already exists.
 
-    <code>name: string: </code> the name of the new account.<br>
-    <code>passw: string: </code> the password of the new account.
+    <code>name: string:</code> the name of the new account.<br>
+    <code>passw: string:</code> the password of the new account.
 
-    <code>return: boolean: </code> returns false if account already exist, and true if the process of registering was successful.
+    <code>return: boolean:</code> returns false if account already exist, and true if the process of registering was successful.
     """
-    sql = f"select username from users where username='{name}'"
-    with pool.select(sql) as s:
-        if not s.rowcount > 0:
-            sql = f"insert into users (username, pass, xp) values ('{name}', '{passw}', 0)"
-            pool.runsql(sql)
-            return True
-        return False
+    if not namexists(name):
+        sql = f"insert into users (username, pass, xp) values ('{name}', '{passw}', 0)"
+        pool.runsql(sql)
+        return True
+    return False
 
 
 def sendrooms(clobj: User.User) -> None:
@@ -115,5 +121,5 @@ def sendparts(clobj: User.User) -> None:
     parts = rooms[rom].participants
     re = []
     for p in parts:
-        re.append([p.name, p.name in clobj.friends or p.name == clobj.name, p == rooms[rom].host])
+        re.append([p.name, p.name in clobj.friends or p.name == clobj.name or p.loginmode == 2 or clobj.loginmode == 2, p == rooms[rom].host])
     clobj.send(re, 'rm_ppl')

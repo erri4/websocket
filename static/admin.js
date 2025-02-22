@@ -57,7 +57,9 @@ function cmdparse(cmd) {
 
 
 function next(cmd) {
+    cmds.reverse();
     cmds.splice(cmds.length - 1, 0, cmd);
+    cmds.reverse();
     parsedcmd = cmdparse(cmd);
     cmd = parsedcmd[0];
     attrs = parsedcmd[1];

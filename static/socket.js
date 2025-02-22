@@ -1,6 +1,24 @@
 let s;
 let host = location.hostname;
 let room;
+let guest = `
+<h1>log in:</h1><br>
+username:<br>
+<input id="name" onkeydown="
+    if (event.key === 'Enter') {
+        s = connect(this.value);
+        document.querySelector('#fails').innerHTML = ''
+    }
+"><br><br>
+<button onclick="
+    s = connect(document.querySelector('#name').value);
+    document.querySelector('#fails').innerHTML = ''
+">enter as guest</button>
+<button onclick="
+    document.querySelector('#msgs').innerHTML = login;
+    document.querySelector('#fails').innerHTML = '';
+">back</button>
+`;
 let login = `
 <h1>log in:</h1><br>
 username:<br>
@@ -26,6 +44,10 @@ password:<br>
     document.querySelector('#msgs').innerHTML = reg;
     document.querySelector('#fails').innerHTML = '';
 ">register</button>
+<button onclick="
+    document.querySelector('#msgs').innerHTML = guest;
+    document.querySelector('#fails').innerHTML = '';
+">guest</button>
 `;
 let reg = `
 <h1>register:</h1><br>
@@ -50,6 +72,10 @@ username:<br>
         document.querySelector('#msgs').innerHTML = login;
         document.querySelector('#fails').innerHTML = '';
     ">back</button>
+    <button onclick="
+    document.querySelector('#msgs').innerHTML = guest;
+    document.querySelector('#fails').innerHTML = '';
+">guest</button>
 `;
 let sen = `
         <input id="send" onkeydown="
@@ -78,7 +104,7 @@ let sen = `
 let cr = `<input id="cr" onkeydown="
             if (event.key === 'Enter') {
                 if (this.value == '') {
-                    document.querySelector('#passpan').innerHTML = \`<br>password: <input type='password' id='pasi'><button id='pasb'>create</button>\`;
+                    document.querySelector('#passpan').innerHTML = \`<br>password (optional): <input type='password' id='pasi'><button id='pasb'>create</button>\`;
                     let newInput = document.querySelector(\`#pasi\`);
                     newInput.focus();
                     newInput.onkeydown = (e) => {
@@ -102,7 +128,7 @@ let cr = `<input id="cr" onkeydown="
                     }
                 }
                 else {
-                    document.querySelector('#passpan').innerHTML = \`<br>password: <input id='pasi' type='password'><button id='pasb'>create</button>\`;
+                    document.querySelector('#passpan').innerHTML = \`<br>password (optional): <input id='pasi' type='password'><button id='pasb'>create</button>\`;
                     let newInput = document.querySelector(\`#pasi\`);
                     newInput.focus();
                     newInput.onkeydown = (e) => {
@@ -129,7 +155,7 @@ let cr = `<input id="cr" onkeydown="
         "><span id="passpan">
         <button onclick="
             if (document.querySelector(\`#cr\`).value == '') {
-                    document.querySelector('#passpan').innerHTML = \`<br>password: <input id='pasi' type='password'><button id='pasb'>create</button>\`;
+                    document.querySelector('#passpan').innerHTML = \`<br>password (optional): <input id='pasi' type='password'><button id='pasb'>create</button>\`;
                     let newInput = document.querySelector(\`#pasi\`);
                     newInput.focus();
                     newInput.onkeydown = (e) => {
@@ -192,10 +218,18 @@ window.onload = (e) => {
     document.querySelector('#col').value = rgb2hex(color);
 }
 
-let connect = function(name, password, reg = false) {
+let connect = function(name, password = null, reg = false) {
     const s = new WebSocket(`ws://${host}:5001`);
     s.onopen = function() {
-        if (reg) {
+        if (password === null){
+            if (name !== '') {
+                send(s, [name, color], 'gue');
+            }
+            else{
+                document.querySelector('#fails').innerHTML = 'please write a name';
+            }
+        }
+        else if (reg) {
             if (name !== '' && password !== '') {
                 send(s, [name, color, password], 'reg');
             }
@@ -292,6 +326,11 @@ let connect = function(name, password, reg = false) {
                 document.querySelector('#msgs').innerHTML = cr;
                 document.querySelector('#logout').innerHTML = `<button onclick="s.close(); location.reload();">log out</button>`;
             }
+            else if (msg[0] === 'name' && msg[1] == true) {
+                document.querySelector("#userset").innerHTML = '';
+                document.querySelector('#msgs').innerHTML = cr;
+                document.querySelector('#logout').innerHTML = `<button onclick="s.close(); location.reload();">log out</button>`;
+            }
         }
         else if (header === 'move') {
             let mes = '';
@@ -316,6 +355,11 @@ let connect = function(name, password, reg = false) {
             }
             else {
                 let txt = '';
+                msg.forEach((v, i) => {
+                    if (v[0] === document.querySelector("#usrname").innerHTML){
+                        msg[i][0] = 'you';
+                    }
+                })
                 msg.forEach((v, i) => {
                     if (i !== msg.length - 1) {
                         if (v[2]) {
@@ -353,8 +397,8 @@ let connect = function(name, password, reg = false) {
                             }
                         }
                     }
-                })
-                document.querySelector("#ppl").innerHTML = `participants: ${txt.replace(document.querySelector("#usrname").innerHTML, "you")}`;
+                });
+                document.querySelector("#ppl").innerHTML = `participants: ${txt}`;
             }
         }
         else if (header === 'name') {

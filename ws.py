@@ -43,7 +43,7 @@ def client_left(client: ws.WebsocketServer.Client) -> None:
         else:
             del rooms[r]
         for cl in users:
-            if cl.room == None and cl.name != None:
+            if cl.room == None and cl.name != None and cl != obj:
                 sendrooms(cl)
     del users[c]
     if obj.name != 'admin' and obj.name != None:

@@ -4,10 +4,16 @@ import WebsocketServer as ws
 
 class User:
     id: int = 0
+    loginmode: int = 0
+    # key:
+    # 0: logged out
+    # 1: logged in
+    # 2: guest
     name = None
     room = None
     x: int = 0
     y: int = 0
+    xp: int = 0
     friends: list[str] = []
     color: list[int] = [0, 0, 0]
     
