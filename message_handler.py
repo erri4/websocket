@@ -240,8 +240,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
         rooms[r].move()
     elif header == 'eat':
         for part in rooms[r].participants:
-            if msg[0] < int(part.x) + 29 and msg[0] > int(part.x) - 29:
-                    if msg[1] < int(part.y) + 29 and msg[1] > int(part.y) - 29:
+            if obj.x < int(part.x) + 29 and obj.x > int(part.x) - 29:
+                    if obj.y < int(part.y) + 29 and obj.y > int(part.y) - 29:
                         if part.client != client:
                             if obj.loginmode == 1:
                                 sql = f"select xp from users where username='{obj.name}'"

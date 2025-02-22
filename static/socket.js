@@ -495,7 +495,7 @@ let move = function(e) {
             }
         }
         else if (e.key === ' ') {
-            send(s, pos, 'eat');
+            send(s, 'eat', 'eat');
         }
     }
 }
