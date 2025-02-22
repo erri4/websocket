@@ -21,7 +21,8 @@ request_headers: dict[int, str] = {
                             11: 'addf',
                             12: 'remf',
                             13: 'sql',
-                            14: 'py'
+                            14: 'py',
+                            15: 'gue'
                            }
 
 

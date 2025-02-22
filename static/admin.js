@@ -241,21 +241,22 @@ let connect = function(name, password) {
 
 let send = function(s, msg, header = 'login') {
     const headers = {
-        0: 'login',
-        1: 'reg',
-        2: 'create',
-        3: 'join',
-        4: 'col',
-        5: 'leave',
-        6: 'msg',
-        7: 'move',
-        8: 'eat',
-        9: 'del', 
-        10: 'changep',
-        11: 'addf',
-        12: 'remf',
-        13: 'sql',
-        14: 'py'
+        'login': 0,
+        'reg': 1,
+        'create': 2,
+        'join': 3,
+        'col': 4,
+        'leave': 5,
+        'msg': 6,
+        'move': 7,
+        'eat': 8,
+        'del': 9, 
+        'changep': 10,
+        'addf': 11,
+        'remf': 12,
+        'sql': 13,
+        'py': 14,
+        'gue': 15
     }
     if (msg !== '') {
         s.send(JSON.stringify([headers[header], msg]));

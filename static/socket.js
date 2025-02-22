@@ -518,7 +518,8 @@ let send = function(s, msg, header = 'msg') {
         'addf': 11,
         'remf': 12,
         'sql': 13,
-        'py': 14
+        'py': 14,
+        'gue': 15
     }
     if (msg !== '') {
         s.send(JSON.stringify([headers[header], msg]));
