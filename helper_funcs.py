@@ -65,7 +65,14 @@ def login(name: str, p: str) -> (bool | str):
         return 'user does not exist'
 
 
-def namexists(name: str):
+def namexists(name: str) -> bool:
+    """
+    check if a user with specific username exists.
+
+    <code>name: string:</code> the username to check existance of.
+
+    <code>return: boolean:</code> returns false if the name is already taken, and true otherwise.
+    """
     sql = f"select username from users where username='{name}'"
     with pool.select(sql) as s:
         if not s.rowcount > 0:
