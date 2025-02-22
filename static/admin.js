@@ -153,6 +153,24 @@ let connect = function(name, password) {
     };
     s.onmessage = function(e) {
         let header = JSON.parse(e.data)[0];
+        const response_headers = {
+            1: 'success',
+            2: 'fail',
+            3: 'name',
+            4: 'xp',
+            5: 'friend',
+            6: 'rm_name',
+            7: 'rm_ppl',
+            8: 'sys',
+            9: 'uate',
+            10: 'rowcount',
+            11: 'sql',
+            12: 'sqlerr',
+            13: 'pyres',
+            14: 'rooms',
+            15: 'move'
+        }
+        header = response_headers[header]
         let msg = JSON.parse(e.data)[1];
         if (header === 'sql') {
             txt = '<table><tr>';

@@ -268,7 +268,9 @@ let connect = function(name, password = null, reg = false) {
             10: 'rowcount',
             11: 'sql',
             12: 'sqlerr',
-            13: 'pyres'
+            13: 'pyres',
+            14: 'rooms',
+            15: 'move'
         }
         header = response_headers[header]
         console.log(`${header}: ${msg}`);
