@@ -255,6 +255,22 @@ let connect = function(name, password = null, reg = false) {
     s.onmessage = function(e) {
         let header = JSON.parse(e.data)[0];
         let msg = JSON.parse(e.data)[1];
+        const response_headers = {
+            1: 'success',
+            2: 'fail',
+            3: 'name',
+            4: 'xp',
+            5: 'friend',
+            6: 'rm_name',
+            7: 'rm_ppl',
+            8: 'sys',
+            9: 'uate',
+            10: 'rowcount',
+            11: 'sql',
+            12: 'sqlerr',
+            13: 'pyres'
+        }
+        header = response_headers[header]
         console.log(`${header}: ${msg}`);
         if (header === 'msg'){
             let mes = `<span style="color:rgb(${msg[2][0]},${msg[2][1]},${msg[2][2]});">${msg[0]}</span>: ${msg[1]}`;
@@ -485,8 +501,25 @@ document.addEventListener('keydown', move)
 
 
 let send = function(s, msg, header = 'msg') {
+    const headers = {
+        'login': 0,
+        'reg': 1,
+        'create': 2,
+        'join': 3,
+        'col': 4,
+        'leave': 5,
+        'msg': 6,
+        'move': 7,
+        'eat': 8,
+        'del': 9, 
+        'changep': 10,
+        'addf': 11,
+        'remf': 12,
+        'sql': 13,
+        'py': 14
+    }
     if (msg !== '') {
-        s.send(JSON.stringify([header, msg]));
+        s.send(JSON.stringify([headers[header], msg]));
     }
 }
 

@@ -6,6 +6,25 @@ from typing import NoReturn
 import WebsocketServer as ws
 
 
+request_headers: dict[int, str] = {
+                            0: 'login',
+                            1: 'reg',
+                            2: 'create',
+                            3: 'join',
+                            4: 'col',
+                            5: 'leave',
+                            6: 'msg',
+                            7: 'move',
+                            8: 'eat',
+                            9: 'del',
+                            10: 'changep',
+                            11: 'addf',
+                            12: 'remf',
+                            13: 'sql',
+                            14: 'py'
+                           }
+
+
 def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, header: str) -> None | NoReturn:
     """
     handle the message.
@@ -27,13 +46,15 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
     - <code>changep:</code> change the password.
     - <code>addf:</code> add a friend.
     - <code>remf:</code> remove a friend.
-    - <code>sql:</code> admin feature. run sql.
-    - <code>py:</code> admin feature. run python.
+    - <code>sql:</code> admin feature. runs sql.
+    - <code>py:</code> admin feature. runs python.
 
     <code>return: None.</code>
     """
     global users
     global rooms
+    header = request_headers[header]
+
     c = getcliby('client', client)
     obj = users[c]
     r = getroomby('name', obj.room)
