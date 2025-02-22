@@ -17,7 +17,9 @@ response_headers: dict[str, int] = {
                                     'sqlerr': 12,
                                     'pyres': 13,
                                     'rooms': 14,
-                                    'move': 15
+                                    'move': 15,
+                                    'ate': 16,
+                                    'msg': 17
                                     }
 
 

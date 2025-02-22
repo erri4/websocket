@@ -270,7 +270,9 @@ let connect = function(name, password = null, reg = false) {
             12: 'sqlerr',
             13: 'pyres',
             14: 'rooms',
-            15: 'move'
+            15: 'move',
+            16: 'ate',
+            17: 'msg'
         }
         header = response_headers[header]
         console.log(`${header}: ${msg}`);

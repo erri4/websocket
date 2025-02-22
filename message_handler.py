@@ -190,7 +190,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             raise UnrelatedException(1)
         if msg[0] != '/':
             rooms[r].sendmsg(msg, users[c])
-            print(f'{obj.name} send: {msg} in room: {rooms[r].name}')
+            print(f'{obj.name} sent {msg} in room {rooms[r].name}')
         else:
             if users[c] == rooms[r].host:
                 l = msg.strip().split(' ')

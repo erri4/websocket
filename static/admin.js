@@ -168,7 +168,9 @@ let connect = function(name, password) {
             12: 'sqlerr',
             13: 'pyres',
             14: 'rooms',
-            15: 'move'
+            15: 'move',
+            16: 'ate',
+            17: 'msg'
         }
         header = response_headers[header]
         let msg = JSON.parse(e.data)[1];
