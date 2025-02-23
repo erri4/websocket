@@ -130,3 +130,15 @@ def sendparts(clobj: User.User) -> None:
     for p in parts:
         re.append([p.name, p.name in clobj.friends or p.name == clobj.name or p.loginmode == 2 or clobj.loginmode == 2, p == rooms[rom].host])
     clobj.send(re, 'rm_ppl')
+
+
+def initfriends(user: User.User):
+        user.friends = []
+        sql = f"select f_of from friends where friend={user.id}"
+        with pool.select(sql) as s:
+            for row in s.sqlres:
+                id = row['f_of']
+                sql = f"select username from users where id={id}"
+                with pool.select(sql) as se:
+                    user.friends.append(se.sqlres[0]['username'])
+        user.send(user.friends, 'friend')

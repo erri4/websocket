@@ -1,4 +1,4 @@
-from helper_funcs import pool, getcliby, getroomby, sendrooms, login, addname, sendparts, namexists, users, rooms
+from helper_funcs import pool, getcliby, getroomby, sendrooms, login, addname, sendparts, namexists, initfriends, users, rooms
 from classes.exceptions import UnrelatedException
 from classes.Room import Room
 import bcrypt
@@ -84,14 +84,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                     users[c].send(xp, 'xp')
                     users[c].id = s.sqlres[0]['id']
                     users[c].xp = xp
-                sql = f"select f_of from friends where friend='{obj.id}'"
-                with pool.select(sql) as s:
-                    for row in s.sqlres:
-                        id = row['f_of']
-                        sql = f"select username from users where id={id}"
-                        with pool.select(sql) as se:
-                            users[c].friends.append(se.sqlres[0]['username'])
-                users[c].send(users[c].friends, 'friend')
+                initfriends(users[c])
                 sendrooms(users[c])
                 print(f'new client: {msg[0]}')
                 users[c].loginmode = 1
@@ -280,14 +273,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                         if s.rowcount == 0:
                             sql = f"insert into friends values ({obj.id}, {users[getcliby('name', msg)].id})"
                             pool.runsql(sql)
-                            sql = f"select * from friends where friend={obj.id}"
-                            with pool.select(sql) as s:
-                                for row in s.sqlres:
-                                    id = row['f_of']
-                                    sql = f"select username from users where id={id}"
-                                    with pool.select(sql) as se:
-                                        users[c].friends.append(se.sqlres[0]['username'])
-                            users[c].send(users[c].friends, 'friend')
+                            initfriends(users[c])
+                            sendparts(users[c])
     elif header == 'remf':
         if obj.loginmode == 1 and users[getcliby('name', msg)].loginmode == 1:
             sql = f"select id from users where username='{msg}'"
@@ -298,13 +285,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                         if s.rowcount > 0:
                             sql = f"delete from friends where friend={obj.id} and f_of={se.sqlres[0]['id']}"
                             pool.runsql(sql)
-                            users[c].friends.remove(msg)
-                            users[c].send(users[c].friends, 'friend')
-                            if users[c].room == None:
-                                sendrooms(users[c])
-                            else:
-                                for part in rooms[r].participants:
-                                    sendparts(part)
+                            initfriends(users[c])
     elif header == 'sql' and obj.name == 'admin':
         try:
             if msg.find('select') == -1:
