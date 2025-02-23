@@ -95,8 +95,10 @@
             ">change password</button><br><br>
             <div id="friends"></div>
             <button id="del" onclick="
+            if (confirm('are you sure you want to delete your account?')){
                 send(s, 'del', 'del');
                 location.reload()
+            }
             ">delete profile</button>
         </div><br><br>
         <button onclick="

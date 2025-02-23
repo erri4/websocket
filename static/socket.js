@@ -7,16 +7,13 @@ username:<br>
 <input id="name" onkeydown="
     if (event.key === 'Enter') {
         s = connect(this.value);
-        document.querySelector('#fails').innerHTML = ''
     }
 "><br><br>
 <button onclick="
     s = connect(document.querySelector('#name').value);
-    document.querySelector('#fails').innerHTML = ''
 ">enter as guest</button>
 <button onclick="
     document.querySelector('#msgs').innerHTML = login;
-    document.querySelector('#fails').innerHTML = '';
 ">back</button>
 `;
 let login = `
@@ -25,28 +22,23 @@ username:<br>
 <input id="name" onkeydown="
     if (event.key === 'Enter') {
         s = connect(this.value, document.querySelector('#password').value);
-        document.querySelector('#fails').innerHTML = ''
     }
 "><br>
 password:<br>
 <input id="password" type="password" onkeydown="
     if (event.key === 'Enter') {
         s = connect(document.querySelector('#name').value, this.value);
-        document.querySelector('#fails').innerHTML = ''
     }
 ">
 <br><br>
 <button onclick="
     s = connect(document.querySelector('#name').value, document.querySelector('#password').value);
-    document.querySelector('#fails').innerHTML = ''
 ">login</button>
 <button onclick="
     document.querySelector('#msgs').innerHTML = reg;
-    document.querySelector('#fails').innerHTML = '';
 ">register</button>
 <button onclick="
     document.querySelector('#msgs').innerHTML = guest;
-    document.querySelector('#fails').innerHTML = '';
 ">guest</button>
 `;
 let reg = `
@@ -55,26 +47,21 @@ username:<br>
     <input id="name" onkeydown="
         if (event.key === 'Enter') {
             s = connect(this.value, document.querySelector('#password').value, true);
-            document.querySelector('#fails').innerHTML = ''
         }
     "><br>password:<br>
     <input id="password" type="password" onkeydown="
         if (event.key === 'Enter') {
             s = connect(document.querySelector('#name').value, this.value, true);
-            document.querySelector('#fails').innerHTML = ''
         }
     "><br><br>
     <button onclick="
         s = connect(document.querySelector('#name').value, document.querySelector('#password').value, true);
-        document.querySelector('#fails').innerHTML = ''
     ">register</button>
     <button onclick="
         document.querySelector('#msgs').innerHTML = login;
-        document.querySelector('#fails').innerHTML = '';
     ">back</button>
     <button onclick="
     document.querySelector('#msgs').innerHTML = guest;
-    document.querySelector('#fails').innerHTML = '';
 ">guest</button>
 `;
 let sen = `
@@ -82,19 +69,16 @@ let sen = `
             if (event.key === 'Enter') {
                 send(s, this.value);
                 this.value = '';
-                document.querySelector('#fails').innerHTML = '';
             }    
         ">
         <button onclick="
             send(s, document.querySelector('#send').value);
             document.querySelector('#send').value = '';
-            document.querySelector('#fails').innerHTML = '';
         ">send</button> <button onclick="
             send(s, 'room', 'leave');
             document.querySelector('#game').style = '';
             document.querySelector('#game').innerHTML = '';
             document.querySelector('#msgs').innerHTML = cr;
-            document.querySelector('#fails').innerHTML = '';
             rom = false;
         ">leave room</button>
         <iframe id="msges"></iframe>
@@ -226,7 +210,7 @@ let connect = function(name, password = null, reg = false) {
                 send(s, [name, color], 'gue');
             }
             else{
-                document.querySelector('#fails').innerHTML = 'please write a name';
+                alert('please write a name');
             }
         }
         else if (reg) {
@@ -234,10 +218,10 @@ let connect = function(name, password = null, reg = false) {
                 send(s, [name, color, password], 'reg');
             }
             else if (name === '') {
-                document.querySelector('#fails').innerHTML = 'please write a name';
+                alert('please write a name');
             }
             else if (password === '') {
-                document.querySelector('#fails').innerHTML = 'please write a password';
+                alert('please write a password');
             }
         }
         else {
@@ -245,10 +229,10 @@ let connect = function(name, password = null, reg = false) {
                 send(s, [name, color, password], 'login');
             }
             else if (name === '') {
-                document.querySelector('#fails').innerHTML = 'please write a name';
+                alert('please write a name');
             }
             else if (password === '') {
-                document.querySelector('#fails').innerHTML = 'please write a password';
+                alert('please write a password');
             }
         }
     };
@@ -295,13 +279,11 @@ let connect = function(name, password = null, reg = false) {
                         v[1].slice(1, v[1].length).forEach((val) => {friend += `, ${val}`});
                         text += `${v[0]} <button onclick="
                             setpassw(\`${v[0]}\`);
-                            document.querySelector('#fails').innerHTML = '';
                         ">join</button> friends in room: ${friend} <span id="passw"></span><br>`;
                     }
                     else {
                         text += `${v[0]} <button onclick="
                             setpassw(\`${v[0]}\`);
-                            document.querySelector('#fails').innerHTML = '';
                         ">join</button> <span id="passw"></span><br>`;
                     }
                 }
@@ -312,13 +294,11 @@ let connect = function(name, password = null, reg = false) {
                         console.log(v[1])
                         text += `${v[0]} <button onclick="
                         send(s, [\`${v[0]}\`, null], 'join')
-                        document.querySelector('#fails').innerHTML = '';
                     ">join</button> friends in room: ${friend}<br>`;
                     }
                     else {
                         text += `${v[0]} <button onclick="
                             send(s, [\`${v[0]}\`, null], 'join')
-                            document.querySelector('#fails').innerHTML = '';
                         ">join</button><br>`;
                     }
                 }
@@ -326,14 +306,13 @@ let connect = function(name, password = null, reg = false) {
             document.querySelector("#rooms").innerHTML = text;
         }
         else if (header === 'fail'){
-            document.querySelector('#fails').innerHTML = msg;
+            alert(msg);
         }
         else if (header === 'success') {
             if (msg === 'room') {
                 rom = true;
                 document.querySelector('#msgs').innerHTML = sen;
                 document.querySelector('#rooms').innerHTML = '';
-                document.querySelector('#fails').innerHTML = '';
                 document.querySelector("#game").style.width = '430px';
                 document.querySelector("#game").style.height = '400px';
                 document.querySelector("#game").style.border = 'black';
@@ -541,7 +520,6 @@ function setpassw(name) {
     newInput.onkeydown = (e) => {
         if (e.key === 'Enter') {
             send(s, [`${name}`, e.target.value], 'join');
-            document.querySelector('#fails').innerHTML = '';
         }
     };
 }
