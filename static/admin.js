@@ -147,7 +147,7 @@ function next(cmd) {
 
 
 let connect = function(name, password) {
-    const s = new WebSocket(`ws://${host}:5001`);
+    const s = new WebSocket(`ws://${host}:1973`);
     s.onopen = function() {
         send(s, [name, password], 'login');
     };

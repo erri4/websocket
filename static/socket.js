@@ -194,16 +194,16 @@ let color = [];
 let friends = [];
 let xp = 0;
 let rom;
-color[0] = Math.floor(Math.random() * (255 - 0 + 1)) + 0
-color[1] = Math.floor(Math.random() * (255 - 0 + 1)) + 0
-color[2] = Math.floor(Math.random() * (255 - 0 + 1)) + 0
+color[0] = Math.floor(Math.random() * 256)
+color[1] = Math.floor(Math.random() * 256)
+color[2] = Math.floor(Math.random() * 256)
 window.onload = (e) => {
     document.querySelector('#colors').style.color = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
     document.querySelector('#col').value = rgb2hex(color);
 }
 
 let connect = function(name, password = null, reg = false) {
-    const s = new WebSocket(`ws://${host}:5001`);
+    const s = new WebSocket(`ws://${host}:1973`);
     s.onopen = function() {
         if (password === null){
             if (name !== '') {
