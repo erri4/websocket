@@ -35,9 +35,9 @@ my biggest project. combining all my knowledge of python together: flask, websoc
 
 ### if you have mysql workbench :
 open terminal and run :<br>
-`>>>pip install flask bcrypt PyMySQL dbutils cryptography https://erri4.github.io/package/filesforpip/WebsocketServer-0.1.4-py3-none-any.whl`<br>
 `>>>git clone https://github.com/erri4/websocket.git`<br>
-`>>>cd websocket`
+`>>>cd websocket`<br>
+`>>>pip install -r requirements.txt`
 
 
 # running :

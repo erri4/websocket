@@ -1,0 +1,6 @@
+flask
+bcrypt
+PyMySQL
+dbutils
+cryptography
+https://erri4.github.io/package/filesforpip/WebsocketServer-0.1.4-py3-none-any.whl
