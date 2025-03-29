@@ -1,4 +1,4 @@
-import classes.database as db
+import DBConnectionPool as db
 import classes.User as User
 import classes.Room as Room
 from typing import Any
