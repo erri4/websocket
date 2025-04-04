@@ -1,29 +1,10 @@
 from helper_funcs import pool, getcliby, getroomby, sendrooms, login, addname, sendparts, namexists, initfriends, users, rooms
 from classes.exceptions import UnrelatedException
 from classes.Room import Room
+from classes.User import RESPONSE_HEADERS
 import bcrypt
 from typing import NoReturn
 import WebsocketServer as ws
-
-
-REQUEST_HEADERS: dict[int, str] = {
-                            0: 'login',
-                            1: 'reg',
-                            2: 'create',
-                            3: 'join',
-                            4: 'col',
-                            5: 'leave',
-                            6: 'msg',
-                            7: 'move',
-                            8: 'eat',
-                            9: 'del',
-                            10: 'changep',
-                            11: 'addf',
-                            12: 'remf',
-                            13: 'sql',
-                            14: 'py',
-                            15: 'gue'
-                           }
 
 
 def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, header: str) -> None | NoReturn:
@@ -54,7 +35,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
     """
     global users
     global rooms
-    header = REQUEST_HEADERS[header]
+    header = RESPONSE_HEADERS[header]
 
     c = getcliby('client', client)
     obj = users[c]

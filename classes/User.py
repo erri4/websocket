@@ -2,7 +2,7 @@ import json
 import WebsocketServer as ws
 
 
-response_headers: dict[str, int] = {
+RESPONSE_HEADERS: dict[str, int] = {
                                     'success': 1,
                                     'fail': 2,
                                     'name': 3,
@@ -84,4 +84,4 @@ class User:
         """
         if header == None:
             header = 'msg'
-        self.client.send(json.dumps([response_headers[header], msg]))
+        self.client.send(json.dumps([RESPONSE_HEADERS[header], msg]))
