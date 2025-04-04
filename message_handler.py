@@ -1,4 +1,4 @@
-from helper_funcs import pool, getcliby, getroomby, sendrooms, login, addname, sendparts, namexists, initfriends, users, rooms
+from helper_funcs import getcliby, getroomby, sendrooms, login, addname, sendparts, namexists, initfriends, users, rooms, pool
 from classes.exceptions import UnrelatedException
 from classes.Room import Room
 import bcrypt
