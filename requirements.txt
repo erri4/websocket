@@ -3,5 +3,6 @@ bcrypt
 PyMySQL
 dbutils
 cryptography
+python-dotenv
 https://erri4.github.io/package/filesforpip/WebsocketServer-0.1.4-py3-none-any.whl
 https://erri4.github.io/package/filesforpip/DBConnectionPool-0.0.1-py3-none-any.whl

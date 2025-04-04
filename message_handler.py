@@ -6,7 +6,7 @@ from typing import NoReturn
 import WebsocketServer as ws
 
 
-request_headers: dict[int, str] = {
+REQUEST_HEADERS: dict[int, str] = {
                             0: 'login',
                             1: 'reg',
                             2: 'create',
@@ -54,7 +54,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
     """
     global users
     global rooms
-    header = request_headers[header]
+    header = REQUEST_HEADERS[header]
 
     c = getcliby('client', client)
     obj = users[c]
