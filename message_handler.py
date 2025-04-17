@@ -57,12 +57,13 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
     header = REQUEST_HEADERS[header]
 
     c = getcliby('client', client)
+    c: int
     obj = users[c]
     r = getroomby('name', obj.room)
     if header == 'login':
         if obj.name != None:
             raise UnrelatedException()
-        if type(getcliby('name', msg[0])) != bool:
+        if getcliby('name', msg[0]) != None:
             raise UnrelatedException(2)
         ADMINHASH = b'$2b$12$4kuZ2dRYzCqpUR70spcFSeqgMgA4R92DK8San1MPer71YFudQ5ShC'
         if msg[0] == 'admin':
@@ -123,7 +124,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
         if msg[0] == None:
             msg[0] = f"{obj.name}'s room"
         ex = getroomby('name', msg[0])
-        if type(ex) == bool:
+        if ex == None:
+            ex: int
             ro = Room(str(msg[0]), obj, msg[1])
             rooms.append(ro)
             users[c].send('room', 'success')
@@ -139,7 +141,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             users[c].send('room already exists', 'fail')
     elif header == 'join':
         rom = getroomby('name', msg[0])
-        if type(rom) != bool:
+        if rom != None:
+            rom: int
             if users[c] not in rooms[rom].blacklist:
                 if rooms[rom].password == None or msg[1] == rooms[rom].password:
                     rooms[rom].sysmsg(f'{obj.name} have joined the room')
@@ -157,7 +160,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                 users[c].send('you were banned from this room', 'fail')
     elif header == 'col':
         users[c].color = msg
-        if type(r) != bool and r != None:
+        if r != None:
+            r: int
             rooms[r].move()
     elif header == 'leave':
         if type(r) == bool:
@@ -179,8 +183,9 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
         users[c].send('', 'rm_ppl')
         print(f'{obj.name} left room: {rname}')
     elif header == 'msg':
-        if type(r) == bool:
+        if r == None:
             raise UnrelatedException(1)
+        r: int
         if msg[0] != '/':
             rooms[r].sendmsg(msg, users[c])
             print(f'{obj.name} sent {msg} in room {rooms[r].name}')
@@ -191,7 +196,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                 if len(l) >= 2:
                     if l[0] == 'kick' and l[1] != obj.name:
                         k = getcliby('name', l[1])
-                        if type(k) != bool and users[k] in rooms[r].participants:
+                        if k != None and users[k] in rooms[r].participants:
+                            k: int
                             rooms[r].remove_participant(users[k])
                             users[k].room = None
                             users[k].send('you were kicked from the room', 'sys')
@@ -207,7 +213,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                             users[k].send('', 'rm_ppl')
                     elif l[0] == 'ban' and l[1] != obj.name:
                         k = getcliby('name', l[1])
-                        if type(k) != bool and users[k] in rooms[r].participants:
+                        if k != None and users[k] in rooms[r].participants:
+                            k: int
                             rooms[r].remove_participant(users[k])
                             rooms[r].blacklist.append(users[k])
                             users[k].room = None
@@ -224,7 +231,8 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                             users[k].send('', 'rm_ppl')
                     elif l[0] == 'givehost':
                             k = getcliby('name', l[1])
-                            if type(k) != bool:
+                            if k != None:
+                                k: int
                                 rooms[r].host = users[k]
                                 for part in rooms[r].participants:
                                     sendparts(part)
@@ -246,6 +254,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                             xp = obj.xp
                             xp += 10
                             p = getcliby('client', part.client)
+                            p: int
                             users[p].move(0, 0)
                             part.send('', 'uate')
                             users[c].send(xp, 'xp')
@@ -264,19 +273,21 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             sql = f"update users set pass='{msg}' where username='{obj.name}'"
             pool.runsql(sql)
     elif header == 'addf':
-        if obj.loginmode == 1 and users[getcliby('name', msg)].loginmode == 1:
+        f: int = getcliby('name', msg)
+        if obj.loginmode == 1 and users[f].loginmode == 1:
             sql = f"select id from users where username='{msg}'"
             with pool.select(sql) as se:
                 if se.rowcount == 1:
-                    sql = f"select * from friends where friend={obj.id} and f_of={users[getcliby('name', msg)].id}"
+                    sql = f"select * from friends where friend={obj.id} and f_of={users[f].id}"
                     with pool.select(sql) as s:
                         if s.rowcount == 0:
-                            sql = f"insert into friends values ({obj.id}, {users[getcliby('name', msg)].id})"
+                            sql = f"insert into friends values ({obj.id}, {users[f].id})"
                             pool.runsql(sql)
                             initfriends(users[c])
                             sendparts(users[c])
     elif header == 'remf':
-        if obj.loginmode == 1 and users[getcliby('name', msg)].loginmode == 1:
+        f: int = getcliby('name', msg)
+        if obj.loginmode == 1 and users[f].loginmode == 1:
             sql = f"select id from users where username='{msg}'"
             with pool.select(sql) as se:
                 if se.rowcount == 1:

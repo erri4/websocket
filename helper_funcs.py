@@ -14,36 +14,34 @@ PORT: int = 3300
 pool = db.ConnectionPool(HOST, USER, PASSWORD, DATABASE, PORT)
 
 
-def getcliby(attr: str, con: Any) -> (int | bool):
+def getcliby(attr: str, con: Any) -> (int | None):
     """
     gets a client location in the users list by an attribute.
 
     <code>attr: string: </code> the attribute to find the client by.<br>
     <code>con: any: </code> the content of the attribute.
 
-    <code>return: integer | boolean: </code> the location of the client in the users list. false if it is not in the list.
+    <code>return: integer | none: </code> the location of the client in the users list. false if it is not in the list.
     """
     global users
     for i in range(len(users)):
         if getattr(users[i], attr) == con:
             return i
-    return False
 
 
-def getroomby(attr: str, con: Any) -> (int | bool):
+def getroomby(attr: str, con: Any) -> (int | None):
     """
     gets a room location in the rooms list by an attribute.
 
     <code>attr: string: the attribute to find the room by.<br>
     <code>con: any: </code> the content of the attribute.
 
-    <code>return: integer | boolean: </code> the location of the room in the rooms list. false if it is not in the list.
+    <code>return: integer | none: </code> the location of the room in the rooms list. false if it is not in the list.
     """
     global rooms
     for i in range(len(rooms)):
         if getattr(rooms[i], attr) == con:
             return i
-    return False
 
 
 def login(name: str, p: str) -> (bool | str):

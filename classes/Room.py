@@ -46,9 +46,9 @@ class Room:
             return True
         else:
             if participant == self.host:
-                xpl = None
+                xpl = 0
                 for part in self.participants:
-                    if xpl == None or part.xp > xpl.xp:
+                    if part.xp > xpl.xp:
                         xpl = part
                 self.host = xpl
             return False
