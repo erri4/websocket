@@ -5,4 +5,4 @@ dbutils
 cryptography
 python-dotenv
 dbconnectionpool
-websocketserverlibrary
+websocketlib
