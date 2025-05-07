@@ -1,7 +1,5 @@
 flask
 bcrypt
-PyMySQL
-dbutils
 cryptography
 python-dotenv
 dbconnectionpool

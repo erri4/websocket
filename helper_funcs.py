@@ -1,4 +1,5 @@
 import DBConnectionPool as db
+from DBConnectionPool.database import _Row
 import classes.User as User
 import classes.Room as Room
 from typing import Any
@@ -11,7 +12,11 @@ USER: str = 'root'
 PASSWORD: str = '033850900reefmysql'
 DATABASE: str = 'mysqldb'
 PORT: int = 3300
-pool = db.ConnectionPool(HOST, USER, PASSWORD, DATABASE, PORT)
+pool = db.ConnectionPool(PASSWORD, USER, HOST, PORT, DATABASE)
+
+
+def getoldform(table: db.Table) -> list[_Row]:
+    return table.data
 
 
 def getcliby(attr: str, con: Any) -> (int | None):
@@ -56,7 +61,7 @@ def login(name: str, p: str) -> (bool | str):
     sql = f"select pass from users where username='{name}'"
     with pool.select(sql) as s:
         if s.rowcount == 1:
-            pa = s.sqlres[0]['pass']
+            pa = getoldform(s.sqlres)[0]['pass']
             if pa == p:
                 return True
             return 'incorrect password'
@@ -134,9 +139,9 @@ def initfriends(user: User.User):
         user.friends = []
         sql = f"select f_of from friends where friend={user.id}"
         with pool.select(sql) as s:
-            for row in s.sqlres:
+            for row in getoldform(s.sqlres):
                 id = row['f_of']
                 sql = f"select username from users where id={id}"
                 with pool.select(sql) as se:
-                    user.friends.append(se.sqlres[0]['username'])
+                    user.friends.append(getoldform(se.sqlres)[0]['username'])
         user.send(user.friends, 'friend')

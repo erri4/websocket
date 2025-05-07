@@ -1,4 +1,4 @@
-from helper_funcs import getcliby, getroomby, sendrooms, login, addname, sendparts, namexists, initfriends, users, rooms, pool
+from helper_funcs import getcliby, getroomby, getoldform, sendrooms, login, addname, sendparts, namexists, initfriends, users, rooms, pool
 from classes.exceptions import UnrelatedException
 from classes.Room import Room
 import bcrypt
@@ -81,9 +81,9 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                 users[c].send(msg[0], 'name')
                 sql = f"select id, xp from users where username='{obj.name}'"
                 with pool.select(sql) as s:
-                    xp = s.sqlres[0]['xp']
+                    xp = getoldform(s.sqlres)[0]['xp']
                     users[c].send(xp, 'xp')
-                    users[c].id = s.sqlres[0]['id']
+                    users[c].id = getoldform(s.sqlres)[0]['id']
                     users[c].xp = xp
                 initfriends(users[c])
                 sendrooms(users[c])
@@ -103,7 +103,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             sql = f"select id from users where username='{obj.name}'"
             with pool.select(sql) as s:
                 users[c].send(0, 'xp')
-                users[c].id = s.sqlres[0]['id']
+                users[c].id = getoldform(s.sqlres)[0]['id']
             users[c].loginmode = 1
         else:
             users[c].send('username already exists', 'fail')
@@ -247,7 +247,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
                             if obj.loginmode == 1:
                                 sql = f"select xp from users where username='{obj.name}'"
                                 with pool.select(sql) as s:
-                                    xp = s.sqlres[0]['xp']
+                                    xp = getoldform(s.sqlres)[0]['xp']
                                     xp += 10
                                     sql = f"update users set xp={xp} where username='{obj.name}'"
                                     pool.runsql(sql)
@@ -291,10 +291,10 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             sql = f"select id from users where username='{msg}'"
             with pool.select(sql) as se:
                 if se.rowcount == 1:
-                    sql = f"select * from friends where friend={obj.id} and f_of={se.sqlres[0]['id']}"
+                    sql = f"select * from friends where friend={obj.id} and f_of={getoldform(se.sqlres)[0]['id']}"
                     with pool.select(sql) as s:
                         if s.rowcount > 0:
-                            sql = f"delete from friends where friend={obj.id} and f_of={se.sqlres[0]['id']}"
+                            sql = f"delete from friends where friend={obj.id} and f_of={getoldform(se.sqlres)[0]['id']}"
                             pool.runsql(sql)
                             initfriends(users[c])
     elif header == 'sql' and obj.name == 'admin':
@@ -305,7 +305,7 @@ def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, he
             else:
                 r = []
                 with pool.select(msg) as s:
-                    r = [s.sqlres, s.rowcount]
+                    r = [getoldform(s.sqlres), s.rowcount]
                     users[c].send(r, 'sql')
         except Exception as e:
             users[c].send(str(e), 'sqlerr')
