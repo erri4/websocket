@@ -15,10 +15,6 @@ PORT: int = 3300
 pool = db.ConnectionPool(PASSWORD, USER, HOST, PORT, DATABASE)
 
 
-def getoldform(table: db.Table) -> list[_Row]:
-    return table.data
-
-
 def getcliby(attr: str, con: Any) -> (int | None):
     """
     gets a client location in the users list by an attribute.
@@ -61,7 +57,7 @@ def login(name: str, p: str) -> (bool | str):
     sql = f"select pass from users where username='{name}'"
     with pool.select(sql) as s:
         if s.rowcount == 1:
-            pa = getoldform(s.sqlres)[0]['pass']
+            pa = s.sqlres.get(row=0, column='pass')
             if pa == p:
                 return True
             return 'incorrect password'
@@ -139,9 +135,10 @@ def initfriends(user: User.User):
         user.friends = []
         sql = f"select f_of from friends where friend={user.id}"
         with pool.select(sql) as s:
-            for row in getoldform(s.sqlres):
+            for i in range(s.sqlres.length):
+                row = s.sqlres.get(row=i)
                 id = row['f_of']
                 sql = f"select username from users where id={id}"
                 with pool.select(sql) as se:
-                    user.friends.append(getoldform(se.sqlres)[0]['username'])
+                    user.friends.append(se.sqlres.get(row=0, column='username'))
         user.send(user.friends, 'friend')
