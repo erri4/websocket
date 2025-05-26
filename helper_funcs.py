@@ -1,5 +1,4 @@
 import DBConnectionPool as db
-from DBConnectionPool.database import _Row
 import classes.User as User
 import classes.Room as Room
 from typing import Any
