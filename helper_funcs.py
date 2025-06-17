@@ -2,15 +2,16 @@ import DBConnectionPool as db
 import classes.User as User
 import classes.Room as Room
 from typing import Any
+import os
 
 
 users: list[User.User] = []
 rooms: list[Room.Room] = []
-HOST: str = 'localhost'
-USER: str = 'root'
-PASSWORD: str = '033850900reefmysql'
-DATABASE: str = 'mysqldb'
-PORT: int = 3300
+HOST: str = os.getenv('DB_HOST')
+USER: str = os.getenv('DB_USER')
+PASSWORD: str = os.getenv('DB_PASS')
+DATABASE: str = os.getenv('DB_DB')
+PORT: int = int(os.getenv('DB_PORT'))
 pool = db.ConnectionPool(PASSWORD, USER, HOST, PORT, DATABASE)
 
 

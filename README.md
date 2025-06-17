@@ -39,8 +39,19 @@ open terminal and run :<br>
 `>>>cd websocket`<br>
 `>>>pip install -r requirements.txt`
 
+then:<br>
+ - add a file named `.env`
+ - inside, write your DB credentials in these enviroment variables:
+ ```.env
+ DB_PASS
+DB_HOST
+DB_USER
+DB_DB
+DB_PORT
+ ```
+
 
 # running :
-    >>>flask run
+`>>>flask run`
 
 the server is now running on your local net at your ip address.
