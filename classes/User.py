@@ -38,13 +38,13 @@ class User:
     friends: list[str] = []
     color: list[int] = [0, 0, 0]
     
-    def __init__(self, client: ws.WebsocketServer.Client) -> None:
+    def __init__(self, client: ws.Client) -> None:
         """
         a class for managing the websocket connections as clients.
 
         <code>client: Client: </code> the websocket connection.
         """
-        self.client: ws.WebsocketServer.Client = client
+        self.client: ws.Client = client
 
 
     def move(self, x: int, y: int) -> None:

@@ -26,7 +26,7 @@ REQUEST_HEADERS: dict[int, str] = {
                                     }
 
 
-def message_handler(client: ws.WebsocketServer.Client, msg: str | list | int, header: str) -> None | NoReturn:
+def message_handler(client: ws.Client, msg: str | list | int, header: str) -> None | NoReturn:
     """
     handle the message.
 

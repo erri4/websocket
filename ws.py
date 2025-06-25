@@ -6,7 +6,7 @@ from helper_funcs import sendrooms, getroomby, sendparts, getcliby, users, rooms
 from classes.exceptions import UnrelatedException
 
 
-def new_client(client: ws.WebsocketServer.Client) -> None:
+def new_client(client: ws.Client) -> None:
     """
     new client setup. creating an instace of user and appending it to the users list.
 
@@ -19,7 +19,7 @@ def new_client(client: ws.WebsocketServer.Client) -> None:
     users.append(cl)
 
 
-def client_left(client: ws.WebsocketServer.Client) -> None:
+def client_left(client: ws.Client) -> None:
     """
     client left setup. removing the client from users list and room if it was inside a room.
 
@@ -28,11 +28,11 @@ def client_left(client: ws.WebsocketServer.Client) -> None:
 
     <code>return: None. </code>
     """
-    c = getcliby('client', client)
+    c: int = getcliby('client', client)
     obj = users[c]
     if obj.room != None:
         room = obj.room
-        r = getroomby('name', room)
+        r: int = getroomby('name', room)
         rm = rooms[r].remove_participant(users[c])
         users[c].room = None
         if rm == False:
@@ -50,7 +50,7 @@ def client_left(client: ws.WebsocketServer.Client) -> None:
         print(f'client left: {obj.name}')
 
 
-def message_received(client: ws.WebsocketServer.Client, msg: str) -> None:
+def message_received(client: ws.Client, msg: str) -> None:
     """
     parse the message and call message_handler function.
 
