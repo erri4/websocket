@@ -2,7 +2,7 @@ from helper_funcs import getcliby, getroomby, sendrooms, login, addname, sendpar
 from classes.exceptions import UnrelatedException
 from classes.Room import Room
 import bcrypt
-from typing import NoReturn
+from typing import Never
 import WebsocketServer as ws
 
 
@@ -26,7 +26,7 @@ REQUEST_HEADERS: dict[int, str] = {
                                     }
 
 
-def message_handler(client: ws.Client, msg: str | list | int, header: str) -> None | NoReturn:
+def message_handler(client: ws.Client, msg: str | list | int, header: str) -> None | Never:
     """
     handle the message.
 
