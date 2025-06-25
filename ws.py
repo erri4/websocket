@@ -68,7 +68,7 @@ def message_received(client: ws.Client, msg: str) -> None:
     except UnrelatedException as e:
         print(e.errtxt)
     except Exception as e:
-        print(e)
+        print(e, 'An exception accured.')
 
 
 def start_server() -> None:
